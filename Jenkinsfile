@@ -14,13 +14,13 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'docker build -t bakosabir99/simple-web-app .'
+                bat 'docker build -t bakosabir99/simple-web-app .'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'docker run bakosabir99/simple-web-app pytest'
+                bat 'docker run bakosabir99/simple-web-app pytest'
             }
         }
 
@@ -28,7 +28,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'DOCKERHUB_CREDENTIALS') {
-                        sh 'docker push bakosabir99/simple-web-app'
+                        bat 'docker push bakosabir99/simple-web-app'
                     }
                 }
             }
