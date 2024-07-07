@@ -10,13 +10,13 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat 'docker build -t bakosabir99/simple-web-app .'
+                bat 'docker build -t bakosabr99/simple-web-app .'
             }
         }
 
         stage('Test') {
             steps {
-                bat 'docker run bakosabir99/simple-web-app pytest'
+                bat 'docker run bakosabr99/simple-web-app pytest'
             }
         }
 
@@ -25,7 +25,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-id', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     bat """
                         docker login -u %DOCKER_USERNAME% -p %DOCKER_PASSWORD%
-                        docker push bakosabir99/simple-web-app
+                        docker push bakosabr99/simple-web-app
                     """
                 }
             }
