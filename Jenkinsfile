@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('bako_id')
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -22,7 +26,11 @@ pipeline {
 
         stage('Push') {
             steps {
-                bat 'docker push bakosabr99/simple-web-app'
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', 'DOCKERHUB_CREDENTIALS') {
+                        bat 'docker push bakosabr99/simple-web-app'
+                    }
+                }
             }
         }
     }
