@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKERHUB_CREDENTIALS = credentials('bako_id')
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -14,22 +10,23 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat 'docker build -t bakosabr99/simple-web-app .'
+                bat 'docker build -t bakosabir99/simple-web-app .'
             }
         }
 
         stage('Test') {
             steps {
-                bat 'docker run bakosabr99/simple-web-app pytest'
+                bat 'docker run bakosabir99/simple-web-app pytest'
             }
         }
 
         stage('Push') {
             steps {
-                script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'DOCKERHUB_CREDENTIALS') {
-                        bat 'docker push bakosabr99/simple-web-app'
-                    }
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-id', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    bat """
+                        docker login -u %DOCKER_USERNAME% -p %DOCKER_PASSWORD%
+                        docker push bakosabir99/simple-web-app
+                    """
                 }
             }
         }
