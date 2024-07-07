@@ -10,19 +10,19 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat 'docker build -t bakosabir99/simple-web-app .'
+                bat 'docker build -t bakosabr99/simple-web-app .'
             }
         }
 
         stage('Test') {
             steps {
-                bat 'docker run bakosabir99/simple-web-app pytest'
+                bat 'docker run bakosabr99/simple-web-app pytest'
             }
         }
 
         stage('Push') {
             steps {
-                bat 'docker push bakosabir99/simple-web-app'
+                bat 'docker push bakosabr99/simple-web-app'
             }
         }
     }
